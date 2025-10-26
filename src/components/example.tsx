@@ -123,7 +123,7 @@ export default function Section6Examples() {
                     {col.example}
                     {idx === 1 && (
                       <span className="inline-block text-sm italic text-gray-500 ml-1">
-                        (Di chuột để xem hình minh họa)
+                        (Di chuột để xem hình)
                       </span>
                     )}
                   </p>
