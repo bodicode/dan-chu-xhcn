@@ -7,7 +7,7 @@ import { Landmark, Users, Gavel, Scale, Vote } from "lucide-react";
 export default function Democracy() {
   return (
     <section
-      id="dan-chu-xhcn"
+      id="ly-thuyet"
       className="relative w-full pt-20 pb-10 px-6 bg-beige-light text-gray-800"
     >
       <div className="max-w-7xl mx-auto space-y-20">
