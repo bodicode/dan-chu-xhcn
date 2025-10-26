@@ -62,7 +62,6 @@ export default function Section6Examples() {
       className="relative w-full py-12 px-6 bg-neutral-50 text-gray-800"
     >
       <div className="max-w-7xl mx-auto space-y-16">
-        {/* ===== HEADER ===== */}
         <div className="text-center">
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
@@ -87,7 +86,6 @@ export default function Section6Examples() {
           </motion.p>
         </div>
 
-        {/* ===== 2 CỘT ===== */}
         <div className="grid md:grid-cols-2 gap-10">
           {[left, right].map((col, idx) => (
             <motion.div
@@ -105,13 +103,11 @@ export default function Section6Examples() {
                 <h3 className="text-2xl font-semibold m-0">{col.title}</h3>
               </div>
 
-              {/* Khái niệm */}
               <div className="space-y-1 mb-4">
                 <p className="font-semibold text-gray-800">Khái niệm:</p>
                 <p className="text-gray-700">{col.concept}</p>
               </div>
 
-              {/* Ví dụ thực tế + hover ảnh */}
               <div
                 className="relative space-y-2 mb-4"
                 onMouseEnter={() => idx === 1 && setHovered(true)}
@@ -129,7 +125,6 @@ export default function Section6Examples() {
                   </p>
                 </div>
 
-                {/* Hiện ảnh khi hover */}
                 {idx === 1 && hovered && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -159,7 +154,6 @@ export default function Section6Examples() {
                 </a>
               </div>
 
-              {/* Hành vi */}
               <div className="space-y-1 mb-4">
                 <p className="font-semibold text-gray-800">Cách thể hiện:</p>
                 <ul className="list-disc ml-6 text-gray-700">
@@ -169,7 +163,6 @@ export default function Section6Examples() {
                 </ul>
               </div>
 
-              {/* Kết quả */}
               <div className="space-y-1 mb-4">
                 <p className="font-semibold text-gray-800">Kết quả:</p>
                 <ul className="list-disc ml-6 text-gray-700">
@@ -179,7 +172,6 @@ export default function Section6Examples() {
                 </ul>
               </div>
 
-              {/* Thông điệp */}
               <div
                 className={`mt-6 p-4 rounded-xl text-center font-semibold ${
                   idx === 0
@@ -192,27 +184,6 @@ export default function Section6Examples() {
             </motion.div>
           ))}
         </div>
-
-        {/* ===== KẾT LUẬN ===== */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.7 }}
-          className="max-w-7xl mx-auto mt-12 bg-gradient-to-r from-red-50 to-orange-50 border border-red-100 rounded-2xl p-8 text-center shadow-sm"
-        >
-          <p className="text-gray-800 text-lg leading-relaxed">
-            <span className="font-semibold text-red-600">Kết luận:</span> Dân
-            chủ ở Việt Nam không phải là{" "}
-            <span className="italic">
-              “tự do tuyệt đối muốn làm gì thì làm”
-            </span>
-            , mà là tự do trong khuôn khổ kỷ cương, pháp luật và trách nhiệm xã
-            hội. Khi quyền tự do được sử dụng đúng đắn, nó góp phần thúc đẩy sự
-            minh bạch, tiến bộ; ngược lại, nếu bị lợi dụng, nó trở thành công cụ
-            gây rối và bị pháp luật nghiêm trị.
-          </p>
-        </motion.div>
       </div>
     </section>
   );
