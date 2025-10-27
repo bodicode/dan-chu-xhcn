@@ -1,0 +1,18 @@
+/* Set text sizes based on content length */
+.card-content {
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.card-content-small {
+  font-size: 12px;
+}
+
+.card-content-medium {
+  font-size: 14px;
+}
+
+.card-content-large {
+  font-size: 16px;
+}

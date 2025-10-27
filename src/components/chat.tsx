@@ -62,7 +62,7 @@ export default function ChatBox() {
         onClick={() => setOpen(!open)}
         className="fixed bottom-6 right-6 bg-[var(--color-red-rev)] text-white p-4 rounded-full shadow-lg hover:bg-[var(--color-red-rev-hover)] transition z-50"
       >
-        <MessageSquare className="w-6 h-6" />
+        <MessageSquare className="w-6 h-6 text-white" />
       </motion.button>
 
       {/* 💬 Hộp chat */}
@@ -150,9 +150,9 @@ export default function ChatBox() {
                 <button
                   onClick={sendMessage}
                   disabled={loading}
-                  className="flex items-center gap-1 bg-[var(--color-red-rev)] text-white px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-[var(--color-red-rev-hover)] transition disabled:opacity-50"
+                  className="flex items-center gap-1 bg-[var(--color-red-rev)] px-4 py-2 rounded-2xl text-sm font-semibold hover:bg-[var(--color-red-rev-hover)] transition disabled:opacity-50"
                 >
-                  <Send size={14} /> Gửi
+                  <Send size={14} className="text-white" /> <span className="text-white">Gửi</span>
                 </button>
               </div>
             </div>

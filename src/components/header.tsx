@@ -16,6 +16,7 @@ export default function Navbar() {
     { name: "Vận dụng", href: "#van-dung" },
     { name: "Ví dụ", href: "#vi-du" },
     { name: "Về dự án", href: "/ve-du-an" },
+    { name: "Game", href: "/game" },
   ];
 
   useEffect(() => {
