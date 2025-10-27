@@ -203,7 +203,7 @@ export default function AboutProjectPage() {
                 icon: "🤖",
                 title: "Công Nghệ Hỗ Trợ",
                 content:
-                  "Các công cụ AI (ChatGPT, Claude) được dùng để tối ưu nội dung và trình bày giao diện — không thay thế việc tư duy, phân tích của sinh viên.",
+                  "Các công cụ AI (ChatGPT, Claude) được dùng để tối ưu nội dung, biên soạn câu hỏi dựa trên giáo trình và trình bày giao diện — không thay thế việc tư duy, phân tích của sinh viên.",
               },
               {
                 icon: "🎯",

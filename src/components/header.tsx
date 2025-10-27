@@ -12,10 +12,10 @@ export default function Navbar() {
   const [showNavbar, setShowNavbar] = useState(true);
 
   const mainNav = [
+    { name: "Về dự án", href: "/ve-du-an" },
     { name: "Lý thuyết", href: "#ly-thuyet" },
     { name: "Vận dụng", href: "#van-dung" },
     { name: "Ví dụ", href: "#vi-du" },
-    { name: "Về dự án", href: "/ve-du-an" },
     { name: "Game", href: "/game" },
   ];
 

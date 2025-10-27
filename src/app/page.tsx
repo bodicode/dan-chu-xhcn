@@ -29,7 +29,7 @@ export default function Home() {
       <Section5Conclusion />
       <Section6Examples />
       <VietnamFooter />
-      <ChatBox />
+      {/* <ChatBox /> */}
     </div>
   );
 }
