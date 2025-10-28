@@ -22,4 +22,14 @@ const eslintConfig = [
   },
 ];
 
-export default eslintConfig;
+export default [
+  {
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+    },
+    rules: {
+      "@typescript-eslint/prefer-namespace-keyword": "error",
+      "@typescript-eslint/no-namespace": "off"
+    }
+  },
+];

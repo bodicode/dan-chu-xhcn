@@ -1,6 +1,5 @@
 "use client";
 
-import ChatBox from "@/components/chat";
 import Democracy from "@/components/democracy";
 import Section6Examples from "@/components/example";
 import VietnamFooter from "@/components/footer";
@@ -13,6 +12,9 @@ import Section2Relation from "@/components/section-2-relation";
 import Section3Balance from "@/components/section-3-balance";
 import Section4StateRole from "@/components/section-4-state-role";
 import Section5Conclusion from "@/components/section-5-conclusion";
+// Import the audio file as a URL
+const AUDIO_FILE = '/speak.mp3';
+import { TTSFloatingButton } from "@/components/tts-floating-button";
 
 export default function Home() {
   return (
@@ -29,6 +31,7 @@ export default function Home() {
       <Section5Conclusion />
       <Section6Examples />
       <VietnamFooter />
+                  <TTSFloatingButton audioSrc={AUDIO_FILE} />
       {/* <ChatBox /> */}
     </div>
   );

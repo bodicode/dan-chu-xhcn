@@ -8,7 +8,7 @@ import { useState } from "react";
 export default function Section6Examples() {
   const [hovered, setHovered] = useState(false);
 
-  const left = {
+  const right = {
     title: "Dân chủ chân chính",
     color: "from-blue-500/10 to-blue-100/20 border-blue-200",
     icon: <CheckCircle className="w-8 h-8 text-blue-600" />,
@@ -32,7 +32,7 @@ export default function Section6Examples() {
     message: "Dân chủ thật sự = Tự do + Trách nhiệm + Tôn trọng.",
   };
 
-  const right = {
+  const left = {
     title: "Lợi dụng dân chủ",
     color: "from-red-500/10 to-red-100/20 border-red-200",
     icon: <XCircle className="w-8 h-8 text-red-600" />,
@@ -110,14 +110,14 @@ export default function Section6Examples() {
 
               <div
                 className="relative space-y-2 mb-4"
-                onMouseEnter={() => idx === 1 && setHovered(true)}
-                onMouseLeave={() => idx === 1 && setHovered(false)}
+                onMouseEnter={() => idx === 0 && setHovered(true)}
+                onMouseLeave={() => idx === 0 && setHovered(false)}
               >
                 <p className="font-semibold text-gray-800">Ví dụ thực tế:</p>
                 <div className="flex items-center gap-2">
                   <p className="text-gray-700 relative z-10 ">
                     {col.example}
-                    {idx === 1 && (
+                    {idx === 0 && (
                       <span className="inline-block text-sm italic text-gray-500 ml-1">
                         (Di chuột để xem hình)
                       </span>
@@ -125,7 +125,7 @@ export default function Section6Examples() {
                   </p>
                 </div>
 
-                {idx === 1 && hovered && (
+                {idx === 0 && hovered && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}

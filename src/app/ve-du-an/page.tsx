@@ -203,7 +203,7 @@ export default function AboutProjectPage() {
                 icon: "🤖",
                 title: "Công Nghệ Hỗ Trợ",
                 content:
-                  "Các công cụ AI (ChatGPT, Claude) được dùng để tối ưu nội dung, biên soạn câu hỏi dựa trên giáo trình và trình bày giao diện — không thay thế việc tư duy, phân tích của sinh viên.",
+                  "Công nghệ AI (như ChatGPT, Claude) được sử dụng một cách có giới hạn và có kiểm soát: hỗ trợ cải thiện chất lượng nội dung, tạo câu hỏi dựa trên tài liệu giảng dạy, AI đọc văn bản, tối ưu hóa văn bản, và giao diện người dùng. Tuy nhiên, mọi kết quả từ AI đều được sinh viên chủ động xem xét, phân tích và điều chỉnh phù hợp với mục tiêu học tập. AI chỉ đóng vai trò công cụ hỗ trợ, không thể thay thế quá trình tư duy độc lập và phân tích sâu sắc của người học.",
               },
               {
                 icon: "🎯",
