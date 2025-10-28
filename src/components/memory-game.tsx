@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+// Sử dụng Ant Design cho UI
 import {
   Layout as AntLayout,
   Card,
@@ -10,18 +11,10 @@ import {
   Space,
   Button,
 } from "antd";
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { useRouter } from 'next/navigation';
+// Thêm SweetAlert2 cho thông báo chiến thắng
 import Swal from "sweetalert2";
-import "@/app/styles/memory-game.css";
-import withReactContent from "sweetalert2-react-content";
 
-const MySwal = withReactContent(Swal);
-
-const { Content } = AntLayout;
-const { Title } = Typography;
-
-// Card interface definition
+// Define types
 interface CardType {
   id: number;
   name: string;
@@ -30,25 +23,41 @@ interface CardType {
   isFlipped: boolean;
   isMatched: boolean;
   colorGroup:
-    | "purple"
+    | "brown"
     | "blue"
     | "orange"
-    | "pink"
+    | "deepPink"
     | "green"
-    | "red"
-    | "cyan"
-    | "magenta";
+    | "black"
+    | "purple"
+    | "yellow";
 }
 
-// Props interface for CardComponent
 interface CardComponentProps {
   card: CardType;
   handleCardClick: (id: number) => void;
+  isReviewMode: boolean;
 }
+
+interface ColorScheme {
+  background: string;
+  border: string;
+  text: string;
+}
+
+interface MatchColors {
+  [key: string]: ColorScheme;
+}
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
+
+const { Content } = AntLayout;
+const { Title } = Typography;
 
 // --- Dữ liệu Card (8 cặp, tổng cộng 16 thẻ) ---
 const newCardData: CardType[] = [
-  // Cặp 1: Định nghĩa Dân chủ
+  // Cặp 1: Định nghĩa Dân chủ (Aqua)
   {
     id: 1,
     name: "Def_1",
@@ -56,7 +65,7 @@ const newCardData: CardType[] = [
     matchContent: "Dân chủ xã hội chủ nghĩa",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "purple",
+    colorGroup: "brown",
   },
   {
     id: 2,
@@ -65,9 +74,9 @@ const newCardData: CardType[] = [
     matchContent: "Nền dân chủ mà quyền lực thuộc về nhân dân",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "purple",
+    colorGroup: "brown",
   },
-  // Cặp 2: Yếu tố bảo đảm
+  // Cặp 2: Yếu tố bảo đảm (Xanh lá cây)
   {
     id: 3,
     name: "BaoDam_2",
@@ -86,7 +95,7 @@ const newCardData: CardType[] = [
     isMatched: false,
     colorGroup: "blue",
   },
-  // Cặp 3: Công cụ thực hiện
+  // Cặp 3: Công cụ thực hiện (Cam)
   {
     id: 5,
     name: "CongCu_3",
@@ -105,7 +114,7 @@ const newCardData: CardType[] = [
     isMatched: false,
     colorGroup: "orange",
   },
-  // Cặp 4: Giai cấp lãnh đạo
+  // Cặp 4: Giai cấp lãnh đạo (Đỏ)
   {
     id: 7,
     name: "GiaiCap_4",
@@ -113,7 +122,7 @@ const newCardData: CardType[] = [
     matchContent: "Giai cấp công nhân",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "pink",
+    colorGroup: "deepPink",
   },
   {
     id: 8,
@@ -122,9 +131,9 @@ const newCardData: CardType[] = [
     matchContent: "Giai cấp giữ vai trò lãnh đạo chính trị trong dân chủ XHCN",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "pink",
+    colorGroup: "deepPink",
   },
-  // Cặp 5: Tôn trọng Con người
+  // Cặp 5: Tôn trọng Con người (Xanh dương)
   {
     id: 9,
     name: "ConNguoi_5",
@@ -143,7 +152,7 @@ const newCardData: CardType[] = [
     isMatched: false,
     colorGroup: "green",
   },
-  // Cặp 6: Bản chất
+  // Cặp 6: Bản chất (Vàng)
   {
     id: 11,
     name: "BanChat_6",
@@ -151,7 +160,7 @@ const newCardData: CardType[] = [
     matchContent: "Dân là gốc, vừa là mục tiêu vừa là động lực phát triển",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "red",
+    colorGroup: "yellow",
   },
   {
     id: 12,
@@ -160,9 +169,9 @@ const newCardData: CardType[] = [
     matchContent: "Bản chất dân chủ XHCN Việt Nam thể hiện ở",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "red",
+    colorGroup: "yellow",
   },
-  // Cặp 7: Thể chế hóa
+  // Cặp 7: Thể chế hóa (Cyan/Turquoise)
   {
     id: 13,
     name: "TheChe_7",
@@ -170,7 +179,7 @@ const newCardData: CardType[] = [
     matchContent: "Pháp luật, kỷ luật và kỷ cương",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "cyan",
+    colorGroup: "purple",
   },
   {
     id: 14,
@@ -179,9 +188,9 @@ const newCardData: CardType[] = [
     matchContent: "Dân chủ XHCN được thể chế hóa bằng",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "cyan",
+    colorGroup: "purple",
   },
-  // Cặp 8: Hình thức
+  // Cặp 8: Hình thức (Hồng)
   {
     id: 15,
     name: "HinhThuc_8",
@@ -189,7 +198,7 @@ const newCardData: CardType[] = [
     matchContent: "Dân chủ trực tiếp và dân chủ gián tiếp",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "magenta",
+    colorGroup: "black",
   },
   {
     id: 16,
@@ -198,54 +207,61 @@ const newCardData: CardType[] = [
     matchContent: "Hai hình thức thực hiện dân chủ ở Việt Nam",
     isFlipped: false,
     isMatched: false,
-    colorGroup: "magenta",
+    colorGroup: "black",
   },
 ];
 
+// Cập nhật bộ màu sắc để tương phản hơn
 const matchColors = {
-  purple: {
-    background: "#e6e6fa",
-    border: "#9370db",
-    text: "#4b0082",
+  brown: {
+    // Nâu
+    background: "#efebe9",
+    border: "#8d6e63",
+    text: "#4e342e",
   },
   blue: {
-    background: "#e0f2f7",
-    border: "#4682b4",
-    text: "#2f4f4f",
+    // Xanh dương
+    background: "#e3f2fd",
+    border: "#1e88e5",
+    text: "#1565c0",
   },
   orange: {
-    background: "#ffe0b2",
-    border: "#ff9800",
-    text: "#e65100",
+    // Cam
+    background: "#fff3e0",
+    border: "#fb8c00",
+    text: "#ef6c00",
   },
-  pink: {
+  deepPink: {
     background: "#fce4ec",
-    border: "#e91e63",
-    text: "#ad1457",
+    border: "#d81b60",
+    text: "#880e4f", // Đổi màu chữ đậm hơn
   },
   green: {
-    background: "#d4edda",
-    border: "#1e7e34",
-    text: "#155724",
+    // Xanh lá cây
+    background: "#e8f5e9",
+    border: "#43a047",
+    text: "#2e7d32",
   },
-  red: {
-    background: "#f8d7da",
-    border: "#dc3545",
-    text: "#721c24",
+  black: {
+    // Đen (thay thế đỏ)
+    background: "#f5f5f5",
+    border: "#212121",
+    text: "#000000",
   },
-  cyan: {
-    background: "#d1ecf1",
-    border: "#117a8b",
-    text: "#0c5460",
-  },
-  magenta: {
+  purple: {
     background: "#f3e5f5",
-    border: "#ab47bc",
-    text: "#6a1b9a",
+    border: "#8e24aa",
+    text: "#4a148c",
+  },
+  yellow: {
+    // Vàng
+    background: "#fffde7",
+    border: "#ffeb3b",
+    text: "#f9a825",
   },
 };
 
-// Hàm trộn thẻ
+// Hàm trộn thẻ (Giữ nguyên)
 const shuffleCards = (array: CardType[]): CardType[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -259,11 +275,16 @@ const shuffleCards = (array: CardType[]): CardType[] => {
 const CardComponent: React.FC<CardComponentProps> = ({
   card,
   handleCardClick,
+  isReviewMode,
 }) => {
+  const isClickable = !card.isMatched && !isReviewMode;
+
   const cardContainerStyle: React.CSSProperties = {
     height: "150px",
     perspective: "1000px",
-    cursor: card.isMatched ? "default" : "pointer",
+    // Chỉ cho phép click nếu không khớp và không ở chế độ xem lại
+    cursor: isClickable ? "pointer" : "default",
+    pointerEvents: isReviewMode ? "none" : ("auto" as const), // Vô hiệu hóa nhấp chuột trong chế độ xem lại
   };
 
   const cardInnerStyle: React.CSSProperties = {
@@ -289,12 +310,12 @@ const CardComponent: React.FC<CardComponentProps> = ({
     borderRadius: "8px",
   } as const;
 
-  const frontFaceStyle: React.CSSProperties = {
+  const frontFaceStyle = {
     ...cardFaceStyle,
-    backgroundColor: "#bae7ff",
+    backgroundColor: "#bae7ff", // Màu xanh mặc định mặt trước
   };
 
-  const backFaceStyle: React.CSSProperties = {
+  const backFaceStyle = {
     ...cardFaceStyle,
     backgroundColor: card.isMatched
       ? matchColors[card.colorGroup].background
@@ -306,52 +327,58 @@ const CardComponent: React.FC<CardComponentProps> = ({
     color: card.isMatched ? matchColors[card.colorGroup].text : "#000",
   };
 
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const getContentClass = () => {
-    if (card.content.length > 50) return "card-content card-content-small";
-    if (card.content.length > 30) return "card-content card-content-medium";
-    return "card-content card-content-large";
-  };
+  // Điều chỉnh font size cho nội dung dài hơn
+  const contentFontSize =
+    card.content.length > 50
+      ? "12px"
+      : card.content.length > 30
+      ? "14px"
+      : "16px";
 
   return (
     <div
       style={cardContainerStyle}
-      onClick={() => !card.isMatched && handleCardClick(card.id)}
+      // Chỉ gọi handleCardClick nếu thẻ chưa khớp và không ở chế độ xem lại
+      onClick={() => isClickable && handleCardClick(card.id)}
     >
       <div style={cardInnerStyle}>
-        <Card style={frontFaceStyle} styles={{ body: { padding: 0 } }}>
-          <Title level={3} style={{ margin: 0 }}>
-            ?
-          </Title>
+        {/* MẶT TRƯỚC */}
+        <Card bodyStyle={{ padding: 12 }} style={frontFaceStyle}>
+          <Title level={3}>?</Title>
         </Card>
-        {mounted && (
-          <Card style={backFaceStyle} styles={{ body: { padding: 0 } }}>
-            <div className={getContentClass()}>{card.content}</div>
-          </Card>
-        )}
+
+        {/* MẶT SAU */}
+        <Card bodyStyle={{ padding: 12 }} style={backFaceStyle}>
+          <Typography.Text
+            style={{
+              fontSize: contentFontSize,
+              fontWeight: 500,
+              lineHeight: 1.2,
+            }}
+          >
+            {card.content}
+          </Typography.Text>
+        </Card>
       </div>
     </div>
   );
 };
 
-const MemoryGame = () => {
+const MemoryGameLayout: React.FC = () => {
   const [cards, setCards] = useState<CardType[]>(() =>
-    shuffleCards(newCardData)
+    shuffleCards(newCardData as CardType[])
   );
   const [flippedCards, setFlippedCards] = useState<number[]>([]);
   const [lockBoard, setLockBoard] = useState(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [isReviewMode, setIsReviewMode] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // --- Logic Timer ---
   useEffect(() => {
-    if (startTime && !isGameOver) {
+    if (startTime && !isGameOver && !isReviewMode) {
       timerRef.current = setInterval(() => {
         setElapsedTime(Math.floor((Date.now() - startTime) / 1000));
       }, 1000);
@@ -363,7 +390,7 @@ const MemoryGame = () => {
         clearInterval(timerRef.current);
       }
     };
-  }, [startTime, isGameOver]);
+  }, [startTime, isGameOver, isReviewMode]);
 
   const resetGame = useCallback(() => {
     setLockBoard(false);
@@ -372,7 +399,29 @@ const MemoryGame = () => {
     setStartTime(null);
     setElapsedTime(0);
     setIsGameOver(false);
+    setIsReviewMode(false);
   }, []);
+
+  // ✅ Thêm hàm hoàn thành game để test
+  const forceFinishGame = useCallback(() => {
+    if (isGameOver || isReviewMode) return;
+
+    // Đảm bảo tất cả thẻ được lật và khớp
+    setCards((prevCards) =>
+      prevCards.map((c) => ({
+        ...c,
+        isFlipped: true,
+        isMatched: true,
+      }))
+    );
+    setFlippedCards([]);
+    setLockBoard(false);
+    // Nếu timer chưa chạy, set startTime để elapsedTime tính toán được (nếu cần)
+    if (startTime === null) {
+      setStartTime(Date.now());
+    }
+    // useEffect kiểm tra `allMatched` sẽ tự kích hoạt popup
+  }, [isGameOver, isReviewMode, startTime]);
 
   const checkForMatch = useCallback(() => {
     const [id1, id2] = flippedCards;
@@ -392,6 +441,7 @@ const MemoryGame = () => {
       setFlippedCards([]);
       setLockBoard(false);
     } else {
+      // Lật ngược sau 1.5 giây
       setTimeout(() => {
         setCards((prevCards) =>
           prevCards.map((c) => {
@@ -403,17 +453,17 @@ const MemoryGame = () => {
         );
         setFlippedCards([]);
         setLockBoard(false);
-      }, 1500);
+      }, 1.5 * 1000);
     }
   }, [flippedCards, cards]);
 
   const handleCardClick = (id: number): void => {
-    if (lockBoard || flippedCards.includes(id) || isGameOver) return;
+    if (lockBoard || flippedCards.includes(id) || isGameOver || isReviewMode)
+      return;
 
     if (flippedCards.length === 0 && startTime === null) {
       setStartTime(Date.now());
     }
-
     setCards((prevCards) =>
       prevCards.map((c) => (c.id === id ? { ...c, isFlipped: true } : c))
     );
@@ -427,6 +477,7 @@ const MemoryGame = () => {
     }
   }, [flippedCards, checkForMatch]);
 
+  // --- Dừng Timer và Hiển thị SweetAlert2 ---
   useEffect(() => {
     const allMatched = cards.every((card) => card.isMatched);
     if (allMatched && cards.length > 0 && !isGameOver) {
@@ -440,7 +491,7 @@ const MemoryGame = () => {
         ),
         html: (
           <div>
-            <p>Bạn đã tìm thấy tất cả các cặp thẻ.</p>
+            <p>Bạn đã tìm thấy tất cả 8 cặp thẻ.</p>
             <Title level={4}>
               Thời gian:{" "}
               <span style={{ color: "#1890ff" }}>
@@ -450,16 +501,23 @@ const MemoryGame = () => {
           </div>
         ),
         icon: "success",
+        showCancelButton: true,
         confirmButtonText: "Chơi Lại",
+        cancelButtonText: "Xem lại",
+        confirmButtonColor: "#1890ff",
+        cancelButtonColor: "#faad14",
         allowOutsideClick: false,
       }).then((result) => {
         if (result.isConfirmed) {
           resetGame();
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          setIsReviewMode(true);
         }
       });
     }
   }, [cards, elapsedTime, isGameOver, resetGame]);
 
+  // Định dạng hiển thị thời gian
   const formatTime = (totalSeconds: number): string => {
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
@@ -472,43 +530,20 @@ const MemoryGame = () => {
     return hours > 0 ? formatted : formatted.substring(3);
   };
 
-  const router = useRouter();
-
   return (
     <AntLayout
       style={{
         minHeight: "100vh",
-        backgroundColor: "#f6f0e7",
+        backgroundColor: "#f0f2f5",
         padding: "20px",
       }}
     >
       <Content style={{ maxWidth: "850px", margin: "0 auto", width: "100%" }}>
-        <div style={{ position: "relative", marginBottom: "20px" }}>
-          <Button
-            type="link"
-            icon={<ArrowLeftOutlined />}
-            onClick={() => router.push('/')}
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "50%",
-              transform: "translateY(-50%)",
-              fontSize: "18px",
-              color: "#c64949"
-            }}
-          />
-          <Title
-            level={2}
-            style={{
-              textAlign: "center",
-              color: "#c64949",
-              margin: 0,
-            }}
-          >
-            Trò chơi Lật Thẻ Nhớ: Dân Chủ XHCN
-          </Title>
-        </div>
+        <Title level={2} style={{ textAlign: "center", marginBottom: "20px" }}>
+          Trò chơi Lật Thẻ Nhớ: Dân Chủ XHCN
+        </Title>
         <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          {/* HIỂN THỊ THỜI GIAN */}
           <div
             style={{
               padding: "10px",
@@ -525,20 +560,37 @@ const MemoryGame = () => {
               </span>
             </Title>
           </div>
+          {/* NÚT THÊM MỚI: HOÀN THÀNH GAME ĐỂ TEST */}
+          <Button
+            onClick={forceFinishGame}
+            style={{ width: "100%" }}
+            disabled={isGameOver || isReviewMode}
+          >
+            [TEST] Hoàn thành Game Ngay lập tức
+          </Button>
 
           <Button
             type="primary"
             onClick={resetGame}
-            style={{ width: "100%", backgroundColor: "#a83232" }}
-            danger={isGameOver}
+            style={{ width: "100%" }}
+            danger={isGameOver && !isReviewMode}
           >
-            {isGameOver ? "Chơi Ván Mới" : "Chơi Lại"}
+            {isReviewMode
+              ? "Bắt Đầu Ván Mới"
+              : isGameOver
+              ? "Chơi Ván Mới"
+              : "Chơi Lại"}
           </Button>
 
+          {/* Lưới 4x4 cho 16 thẻ */}
           <Row gutter={[12, 12]}>
             {cards.map((card) => (
               <Col span={6} key={card.id}>
-                <CardComponent card={card} handleCardClick={handleCardClick} />
+                <CardComponent
+                  card={card}
+                  handleCardClick={handleCardClick}
+                  isReviewMode={isReviewMode}
+                />
               </Col>
             ))}
           </Row>
@@ -548,4 +600,4 @@ const MemoryGame = () => {
   );
 };
 
-export default MemoryGame;
+export default MemoryGameLayout;
