@@ -403,25 +403,25 @@ const MemoryGameLayout: React.FC = () => {
   }, []);
 
   // ✅ Thêm hàm hoàn thành game để test
-  const forceFinishGame = useCallback(() => {
-    if (isGameOver || isReviewMode) return;
+  // const forceFinishGame = useCallback(() => {
+  //   if (isGameOver || isReviewMode) return;
 
-    // Đảm bảo tất cả thẻ được lật và khớp
-    setCards((prevCards) =>
-      prevCards.map((c) => ({
-        ...c,
-        isFlipped: true,
-        isMatched: true,
-      }))
-    );
-    setFlippedCards([]);
-    setLockBoard(false);
-    // Nếu timer chưa chạy, set startTime để elapsedTime tính toán được (nếu cần)
-    if (startTime === null) {
-      setStartTime(Date.now());
-    }
-    // useEffect kiểm tra `allMatched` sẽ tự kích hoạt popup
-  }, [isGameOver, isReviewMode, startTime]);
+  //   // Đảm bảo tất cả thẻ được lật và khớp
+  //   setCards((prevCards) =>
+  //     prevCards.map((c) => ({
+  //       ...c,
+  //       isFlipped: true,
+  //       isMatched: true,
+  //     }))
+  //   );
+  //   setFlippedCards([]);
+  //   setLockBoard(false);
+  //   // Nếu timer chưa chạy, set startTime để elapsedTime tính toán được (nếu cần)
+  //   if (startTime === null) {
+  //     setStartTime(Date.now());
+  //   }
+  //   // useEffect kiểm tra `allMatched` sẽ tự kích hoạt popup
+  // }, [isGameOver, isReviewMode, startTime]);
 
   const checkForMatch = useCallback(() => {
     const [id1, id2] = flippedCards;
@@ -561,13 +561,13 @@ const MemoryGameLayout: React.FC = () => {
             </Title>
           </div>
           {/* NÚT THÊM MỚI: HOÀN THÀNH GAME ĐỂ TEST */}
-          <Button
+          {/* <Button
             onClick={forceFinishGame}
             style={{ width: "100%" }}
             disabled={isGameOver || isReviewMode}
           >
             [TEST] Hoàn thành Game Ngay lập tức
-          </Button>
+          </Button> */}
 
           <Button
             type="primary"
